@@ -4,7 +4,13 @@ from app.models import News
 from app.schemas import NewsCreate, NewsUpdate
 
 
-def get_news_list(db: Session, tag: str | None = None, source: str | None = None):
+def get_news_list(
+    db: Session,
+    tag: str | None = None,
+    source: str | None = None,
+    limit: int = 10,
+    offset: int = 0,
+):
     query = db.query(News)
 
     if tag:
@@ -13,7 +19,7 @@ def get_news_list(db: Session, tag: str | None = None, source: str | None = None
     if source:
         query = query.filter(News.source == source)
 
-    return query.order_by(News.created_at.desc()).all()
+    return query.order_by(News.created_at.desc()).offset(offset).limit(limit).all()
 
 
 def get_news_by_id(db: Session, news_id: int):

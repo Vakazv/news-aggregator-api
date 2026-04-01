@@ -13,6 +13,7 @@ Backend service for storing, filtering and caching news content.
 ## Features
 - CRUD for news
 - Filtering by source and tag
+- Pagination with `limit` and `offset`
 - REST API
 - Redis caching for news list
 - Docker Compose setup

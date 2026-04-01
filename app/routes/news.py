@@ -13,14 +13,22 @@ router = APIRouter()
 def get_news(
     tag: str | None = Query(default=None),
     source: str | None = Query(default=None),
+    limit: int = Query(default=10, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
 ):
-    cache_key = f"news:list:{tag}:{source}"
+    cache_key = f"news:list:{tag}:{source}:{limit}:{offset}"
     cached = get_cached_news(cache_key)
     if cached:
         return cached
 
-    items = crud.get_news_list(db, tag=tag, source=source)
+    items = crud.get_news_list(
+        db,
+        tag=tag,
+        source=source,
+        limit=limit,
+        offset=offset,
+    )
     serialized = [NewsOut.model_validate(item).model_dump(mode="json") for item in items]
     set_cached_news(cache_key, serialized, ttl=120)
     return serialized
