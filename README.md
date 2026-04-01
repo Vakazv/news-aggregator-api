@@ -18,6 +18,8 @@ Backend service for storing, filtering and caching news content.
 - Redis caching for news list
 - Docker Compose setup
 - Basic API tests
+- Database healthcheck endpoint
+- Initial seed data for demo content
 
 ## Project structure
 - `app/routes/` — API endpoints
