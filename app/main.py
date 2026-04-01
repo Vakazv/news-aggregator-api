@@ -1,5 +1,9 @@
 from fastapi import FastAPI
+
+from app.db import Base, engine
 from app.routes.news import router as news_router
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="News Aggregator API")
 
