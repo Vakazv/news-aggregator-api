@@ -33,3 +33,11 @@ Backend service for storing, filtering and caching news content.
 
 ```bash
 docker compose up --build
+
+## Demo
+After startup, Swagger UI is available at:
+- `http://localhost:8000/docs`
+
+## Additional features
+- Database healthcheck endpoint: `GET /health/db`
+- Initial seed data for demo content
