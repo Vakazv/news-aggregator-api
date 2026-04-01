@@ -15,9 +15,11 @@ def get_news(
     source: str | None = Query(default=None),
     limit: int = Query(default=10, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    sort_by: str = Query(default="created_at", pattern="^(created_at|id)$"),
+    order: str = Query(default="desc", pattern="^(asc|desc)$"),
     db: Session = Depends(get_db),
 ):
-    cache_key = f"news:list:{tag}:{source}:{limit}:{offset}"
+    cache_key = f"news:list:{tag}:{source}:{limit}:{offset}:{sort_by}:{order}"
     cached = get_cached_news(cache_key)
     if cached:
         return cached
@@ -28,6 +30,8 @@ def get_news(
         source=source,
         limit=limit,
         offset=offset,
+        sort_by=sort_by,
+        order=order,
     )
     serialized = [NewsOut.model_validate(item).model_dump(mode="json") for item in items]
     set_cached_news(cache_key, serialized, ttl=120)

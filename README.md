@@ -14,12 +14,24 @@ Backend service for storing, filtering and caching news content.
 - CRUD for news
 - Filtering by source and tag
 - Pagination with `limit` and `offset`
-- REST API
+- Sorting by `created_at` or `id`
 - Redis caching for news list
 - Docker Compose setup
 - Basic API tests
 - Database healthcheck endpoint
 - Initial seed data for demo content
+
+## Example endpoints
+- `GET /health`
+- `GET /health/db`
+- `GET /news/`
+- `GET /news/?source=Rambler`
+- `GET /news/?tag=media&limit=10&offset=0`
+- `GET /news/?sort_by=created_at&order=desc`
+- `GET /news/{id}`
+- `POST /news/`
+- `PATCH /news/{id}`
+- `DELETE /news/{id}`
 
 ## Project structure
 - `app/routes/` — API endpoints
@@ -34,10 +46,10 @@ Backend service for storing, filtering and caching news content.
 ```bash
 docker compose up --build
 
-## Demo
+##  Demo
 After startup, Swagger UI is available at:
 - `http://localhost:8000/docs`
 
-## Additional features
+##  Additional features
 - Database healthcheck endpoint: `GET /health/db`
 - Initial seed data for demo content

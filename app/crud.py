@@ -10,6 +10,8 @@ def get_news_list(
     source: str | None = None,
     limit: int = 10,
     offset: int = 0,
+    sort_by: str = "created_at",
+    order: str = "desc",
 ):
     query = db.query(News)
 
@@ -19,7 +21,14 @@ def get_news_list(
     if source:
         query = query.filter(News.source == source)
 
-    return query.order_by(News.created_at.desc()).offset(offset).limit(limit).all()
+    sort_column = News.created_at if sort_by == "created_at" else News.id
+
+    if order == "asc":
+        query = query.order_by(sort_column.asc())
+    else:
+        query = query.order_by(sort_column.desc())
+
+    return query.offset(offset).limit(limit).all()
 
 
 def get_news_by_id(db: Session, news_id: int):
